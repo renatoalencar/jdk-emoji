@@ -696,6 +696,10 @@ public class JavaTokenizer {
                 reader.scanChar();
                 continue;
             default:
+                if (reader.ch >= '\uD800' && reader.ch <= '\uDFFF') {
+                    break;
+                }
+
                 if (reader.ch < '\u0080') {
                     // all ASCII range chars already handled, above
                     isJavaIdentifierPart = false;
@@ -804,6 +808,7 @@ public class JavaTokenizer {
                 case 'u': case 'v': case 'w': case 'x': case 'y':
                 case 'z':
                 case '$': case '_':
+                case '\uD83D': case '\uD83C': case '\uD83E':
                     scanIdent();
                     break loop;
                 case '0':
